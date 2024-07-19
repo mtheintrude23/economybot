@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 const db = require("quick.db");
 
 module.exports.run = async (bot, message, args, utils) => {
-  if(!message.content.startsWith('m!'))return;  
+  if(!message.content.startsWith('m/'))return;  
 
   let user = message.mentions.members.first() || message.author;
 
