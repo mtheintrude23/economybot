@@ -3,7 +3,7 @@ const db = require("quick.db");
 const ms = require("parse-ms");
 
 module.exports.run = async (bot, message, args) => {
-  if(!message.content.startsWith('m!')) return;  
+  if (!message.content.startsWith('m/')) return;
 
   let user = message.author;
 
@@ -17,15 +17,15 @@ module.exports.run = async (bot, message, args) => {
 
   let random = Math.floor(Math.random() * 37);
 
-  let moneyhelp = new Discord.EmbedBuilder()
+  let moneyhelp = new Discord.RichEmbed()
     .setColor("#FFFFFF")
-    .setDescription(`<:failed:1231261075886833876> Vui lòng chỉ định một số tiền để cược | m!roulette <color> <amount>`);
+    .setDescription(`<:failed:1231261075886833876> Vui lòng chỉ định một số tiền để cược | m/roulette <color> <amount>`);
 
-  let moneymore = new Discord.EmbedBuilder()
+  let moneymore = new Discord.RichEmbed()
     .setColor("#FFFFFF")
     .setDescription(`<:failed:1231261075886833876> Bạn đang cược nhiều hơn số tiền hiện có`);
 
-  let colorbad = new Discord.EmbedBuilder()
+  let colorbad = new Discord.RichEmbed()
     .setColor("#FFFFFF")
     .setDescription(`<:failed:1231261075886833876> Chỉ định một màu | Đỏ [1.5x] Đen [2x] Xanh [15x]`);
 
@@ -42,7 +42,7 @@ module.exports.run = async (bot, message, args) => {
   if (random === 0 && colour === 2) { // Xanh
     money *= 15;
     db.add(`money_${message.guild.id}_${user.id}`, money);
-    let moneyEmbed1 = new Discord.EmbedBuilder()
+    let moneyEmbed1 = new Discord.RichEmbed()
       .setColor("#FFFFFF")
       .setDescription(`<:Tick:1228712635856453712> Bạn đã thắng ${money} Mcash\n\nHệ số: 15x`);
     message.channel.send(moneyEmbed1);
@@ -50,20 +50,20 @@ module.exports.run = async (bot, message, args) => {
   } else if (isOdd(random) && colour === 1) { // Đỏ
     money = parseInt(money * 1.5);
     db.add(`money_${message.guild.id}_${user.id}`, money);
-    let moneyEmbed2 = new Discord.EmbedBuilder()
+    let moneyEmbed2 = new Discord.RichEmbed()
       .setColor("#FFFFFF")
       .setDescription(`<:Tick:1228712635856453712> Bạn đã thắng ${money} Mcash\n\nHệ số: 1.5x`);
     message.channel.send(moneyEmbed2);
   } else if (!isOdd(random) && colour === 0) { // Đen
     money = parseInt(money * 2);
     db.add(`money_${message.guild.id}_${user.id}`, money);
-    let moneyEmbed3 = new Discord.EmbedBuilder()
+    let moneyEmbed3 = new Discord.RichEmbed()
       .setColor("#FFFFFF")
       .setDescription(`<:Tick:1228712635856453712> Bạn đã thắng ${money} Mcash\n\nHệ số: 2x`);
     message.channel.send(moneyEmbed3);
   } else { // Thua
     db.subtract(`money_${message.guild.id}_${user.id}`, money);
-    let moneyEmbed4 = new Discord.EmbedBuilder()
+    let moneyEmbed4 = new Discord.RichEmbed()
       .setColor("#FFFFFF")
       .setDescription(`<:failed:1231261075886833876> Bạn đã thua ${money} Mcash\n\nHệ số: 0x`);
     message.channel.send(moneyEmbed4);
