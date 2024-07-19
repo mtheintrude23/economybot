@@ -2,25 +2,26 @@ const Discord = require("discord.js");
 const db = require("quick.db");
 
 module.exports.run = async (bot, message, args) => {
-  if(!message.content.startsWith('m!'))return;  
-  let ownerID = 'Your ID'
-  if(message.author.id !== ownerID) return;
+  if (!message.content.startsWith('m/')) return;
+
+  let ownerID = '1219514896778133594'; // Thay 'Your ID' bằng ID của bạn
+  if (message.author.id !== ownerID) return;
 
   let user = message.mentions.members.first() || message.author;
 
-    if (isNaN(args[1])) return;
-    db.subtract(`money_${message.guild.id}_${user.id}`, args[1])
-    let bal = await db.fetch(`money_${message.guild.id}_${user.id}`)
+  if (isNaN(args[1])) return;
 
-    let moneyEmbed = new Discord.RichEmbed()
+  db.subtract(`money_${message.guild.id}_${user.id}`, args[1]);
+  let bal = await db.fetch(`money_${message.guild.id}_${user.id}`);
+
+  let moneyEmbed = new Discord.RichEmbed()
     .setColor("#FFFFFF")
-    .setDescription(`<:Check:618736570337591296> Removed ${args[1]} coins\n\nNew Balance: ${bal}`);
-    message.channel.send(moneyEmbed)
-
+    .setDescription(`<a:Tick:1228712635856453712> Đã xóa ${args[1]} xu\n\nSố dư hiện tại: ${bal}`);
+  message.channel.send(moneyEmbed);
 };
 
-
 module.exports.help = {
-  name:"remove",
-  aliases: ["rm"]
-}
+  name: "remove",
+  aliases: ["rm"],
+  description: "Lệnh này cho phép chủ sở hữu bot xóa một số tiền từ tài khoản người dùng"
+};
